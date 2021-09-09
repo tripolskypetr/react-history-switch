@@ -10,7 +10,7 @@ npm install --save react-history-switch
 
 ## Purpose of development
 
-The library was created to transfer navigation responsibility from a view into mobix state container ([MVC](https://en.wikipedia.org/wiki/Model-view-controller)). Also can be used separately as self-hosted router
+The library was created to transfer navigation responsibility from a view into mobx state container ([MVC](https://en.wikipedia.org/wiki/Model-view-controller)). Also can be used separately as a self-hosted router
 
 ```tsx
 import { createObservableHistory } from "mobx-observable-history"

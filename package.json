@@ -1,7 +1,7 @@
 {
   "name": "react-history-switch",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Self-hosted context-free Switch routing component for History.js library (React). The library was created to transfer navigation responsibility from a view into Mobx state container (MVC). Also can be used separately as a self-hosted router",
   "private": false,
   "author": {
     "name": "Petr Tripolsky",
@@ -14,7 +14,22 @@
   },
   "license": "MIT",
   "homepage": "https://github.com/react-declarative/react-declarative",
-  "keywords": [],
+  "keywords": [
+    "react",
+    "router",
+    "route",
+    "routing",
+    "mobx",
+    "observable",
+    "history",
+    "location",
+    "search-params",
+    "url-search-params",
+    "url-search-params-extended",
+    "history",
+    "link",
+    "switch"
+  ],
   "repository": "https://github.com/tripolskypetr/react-history-switch",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",

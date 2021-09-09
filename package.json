@@ -1,20 +1,69 @@
 {
   "name": "react-history-switch",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": false,
+  "author": {
+    "name": "Petr Tripolsky",
+    "email": "tripolskypetr@gmail.com",
+    "url": "https://github.com/tripolskypetr"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tripolskypetr/react-history-switch.git"
+  "funding": {
+    "type": "individual",
+    "url": "http://paypal.me/tripolskypetr"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/react-declarative/react-declarative",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tripolskypetr/react-history-switch/issues"
+  "repository": "https://github.com/tripolskypetr/react-history-switch",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10"
   },
-  "homepage": "https://github.com/tripolskypetr/react-history-switch#readme"
+  "scripts": {
+    "build": "microbundle --no-compress --format modern,cjs --jsx React.createElement && npm run typedef",
+    "typedef": "node dts.js"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0 <= 17.0.2",
+    "react-dom": ">= 16.8.0 <= 17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.27",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "babel-eslint": "^10.0.3",
+    "dts-bundle": "^0.7.3",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "microbundle": "^0.13.0",
+    "prettier": "^2.0.4",
+    "react-scripts": "^4.0.3",
+    "typescript": "^3.7.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "history": "^5.0.1",
+    "path-to-regexp": "^6.2.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/tripolskypetr/react-declarative#license"
+    }
+  ]
 }

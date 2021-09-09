@@ -1,0 +1,7 @@
+{
+    "typeAcquisition": {
+        "include": [
+            "./react-history-switch.d.ts"
+        ]
+    }
+}

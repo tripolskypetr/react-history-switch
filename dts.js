@@ -13,5 +13,5 @@ dts.bundle({
 
 fs.copyFileSync(
     abs('dist/react-history-switch.d.ts'),
-    abs('example/src/react-history-switch.d.ts'),
+    abs('example/react-history-switch.d.ts'),
 );

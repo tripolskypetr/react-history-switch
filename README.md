@@ -1,28 +1,105 @@
 # react-history-switch
 
-> Made with create-react-library
+> Self-hosted context-free Switch component for [History.js](https://www.npmjs.com/package/history) library
 
-[![NPM](https://img.shields.io/npm/v/react-history-switch.svg)](https://www.npmjs.com/package/react-history-switch) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Install
+## Installation
 
 ```bash
 npm install --save react-history-switch
 ```
 
-## Usage
+## Purpose of development
+
+The library was created to transfer navigation responsibility from a view into mobix state container ([MVC](https://en.wikipedia.org/wiki/Model-view-controller)). Also can be used separately as self-hosted router
 
 ```tsx
-import React, { Component } from 'react'
+import { createObservableHistory } from "mobx-observable-history"
 
-import MyComponent from 'react-history-switch'
-import 'react-history-switch/dist/index.css'
+...
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+const routerService = createObservableHistory();
+
+...
+
+<Switch history={routerService} ... />
+```
+
+## Minimal example
+
+```tsx
+import React from 'react';
+
+import { Switch } from 'react-history-switch';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+
+const Link = ({
+    children,
+    href,
+}) => (
+    <p
+        style={{color: 'blue', textDecoration: 'underline'}}
+        onClick={() => history.push(href)}
+    >
+        {children}
+    </p>
+);
+
+const HomePage = () => (
+    <>
+        <p>Home page</p>
+        <Link href='/next/some-value'>
+            Next page
+        </Link>
+    </>
+);
+
+const NextPage = ({
+    param,
+}) => (
+    <>
+        <p>The next page</p>
+        <p>{`Param: ${param}`}</p>
+        <Link href="/home">
+            Go back
+        </Link>
+    </>
+);
+
+const NotFound = () => (
+    <p>Not found</p>
+);
+
+/**
+ * @type import('react-history-switch').ISwitchItem[]
+ */
+const items = [
+    {
+        path: '/',
+        redirect: '/home',
+    },
+    {
+        path: '/home',
+        component: HomePage,
+    },
+    {
+        path: '/next/:param',
+        component: NextPage,
+    },
+];
+
+export const App = () => {
+    return (
+        <Switch
+            items={items}
+            history={history}
+            NotFound={NotFound}
+        />
+    );
+};
+
+export default App;
 ```
 
 ## License

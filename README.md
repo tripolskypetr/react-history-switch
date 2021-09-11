@@ -104,7 +104,7 @@ export default App;
 
 ## Mobx app example
 
-The extended app-based example is available in [this](https://github.com/react-declarative/list-app-mobx) repository
+If you are looking for Mobx MVC example app you should check [this](https://github.com/react-declarative/list-app-mobx) repository
 
 ## License
 

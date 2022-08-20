@@ -81,11 +81,11 @@ const items = [
     },
     {
         path: '/home',
-        component: HomePage,
+        element: HomePage,
     },
     {
         path: '/next/:param',
-        component: NextPage,
+        element: NextPage,
     },
 ];
 

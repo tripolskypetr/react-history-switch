@@ -4,50 +4,49 @@
 //   ../react
 
 declare module 'react-history-switch' {
-    import Switch from "react-history-switch/lib/Switch";
+    import Switch from 'react-history-switch/lib/Switch';
+    import ISwitchItemInternal from 'react-history-switch/model/ISwitchItem';
     export { Switch };
     export * as history from 'history';
-    import ISwitchItemInternal from "react-history-switch/model/ISwitchItem";
-    import ISwitchStateInternal from "react-history-switch/model/ISwitchState";
     export type ISwitchItem = ISwitchItemInternal;
-    export type ISwitchState = ISwitchStateInternal;
 }
 
 declare module 'react-history-switch/lib/Switch' {
-    import ISwitchProps from 'react-history-switch/model/ISwitchProps';
-    export const Switch: ({ items, history, NotFound, }: ISwitchProps) => import("react").ReactElement<any, string | ((props: any) => import("react").ReactElement<any, any> | null) | (new (props: any) => import("react").Component<any, any, any>)>;
+    import React from 'react';
+    import { BrowserHistory, HashHistory, MemoryHistory } from 'history';
+    export interface ISwitchItem {
+        path: string;
+        element?: React.ComponentType<any>;
+        guard?: () => boolean | Promise<boolean>;
+        prefetch?: (params: Record<string, any>) => Record<string, any> | Promise<Record<string, any>>;
+        unload?: (params: Record<string, any>) => Promise<void> | void;
+        redirect?: string | ((params: Record<string, any>) => string | null);
+    }
+    export interface ISwitchProps {
+        items: ISwitchItem[];
+        fallback?: (e: Error) => void;
+        history?: BrowserHistory | MemoryHistory | HashHistory;
+        Forbidden?: React.ComponentType<any>;
+        NotFound?: React.ComponentType<any>;
+        Loader?: React.ComponentType<any>;
+        Error?: React.ComponentType<any>;
+        onLoadStart?: () => void;
+        onLoadEnd?: (isOk?: boolean) => void;
+        throwError?: boolean;
+    }
+    export const Switch: ({ Loader, Forbidden, NotFound, Error, history, fallback, items, onLoadStart, onLoadEnd, throwError }: ISwitchProps) => JSX.Element;
     export default Switch;
 }
 
 declare module 'react-history-switch/model/ISwitchItem' {
     export interface ISwitchItem {
         path: string;
-        component?: React.ComponentType<any>;
-        guard?: () => boolean;
-        redirect?: string;
+        element?: React.ComponentType<any>;
+        guard?: () => boolean | Promise<boolean>;
+        prefetch?: (params: Record<string, any>) => Record<string, any> | Promise<Record<string, any>>;
+        unload?: (params: Record<string, any>) => Promise<void> | void;
+        redirect?: string | ((params: Record<string, any>) => string | null);
     }
     export default ISwitchItem;
-}
-
-declare module 'react-history-switch/model/ISwitchState' {
-    export interface ISwitchState {
-        component: React.ComponentType<any>;
-        redirect?: string;
-        params: Record<string, unknown>;
-        key: string;
-    }
-    export default ISwitchState;
-}
-
-declare module 'react-history-switch/model/ISwitchProps' {
-    import { BrowserHistory } from "history";
-    import { ComponentType } from "react";
-    import ISwitchItem from "react-history-switch/model/ISwitchItem";
-    export interface ISwitchProps {
-        items: ISwitchItem[];
-        history?: BrowserHistory;
-        NotFound?: ComponentType;
-    }
-    export default ISwitchProps;
 }
 

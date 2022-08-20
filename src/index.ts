@@ -1,10 +1,8 @@
-import Switch from "./lib/Switch";
-export { Switch };
+import Switch from './lib/Switch'
+import ISwitchItemInternal from './model/ISwitchItem'
 
-export * as history from 'history';
+export { Switch }
 
-import ISwitchItemInternal from "./model/ISwitchItem";
-import ISwitchStateInternal from "./model/ISwitchState";
+export * as history from 'history'
 
-export type ISwitchItem = ISwitchItemInternal;
-export type ISwitchState = ISwitchStateInternal;
+export type ISwitchItem = ISwitchItemInternal

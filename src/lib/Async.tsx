@@ -1,8 +1,7 @@
 import * as React from 'react'
 
-import { useLayoutEffect, useEffect, useRef, useState } from 'react'
-
-import cancelable, { IWrappedFn } from '../utils/cancelable'
+import cancelable, { CANCELED_SYMBOL, IWrappedFn } from '../utils/cancelable'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 export interface IAsyncProps<T extends any = object> {
   children: (p: T) => Result | Promise<Result>
@@ -75,6 +74,9 @@ export const Async = <T extends any = object>({
       isMounted.current && setError(false)
       try {
         const result = await execute()
+        if (result === CANCELED_SYMBOL) {
+          return;
+        }
         executionRef.current = null
         isMounted.current && setChild(result)
       } catch (e) {

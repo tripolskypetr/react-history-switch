@@ -1,5 +1,3 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
-
 import {
   BrowserHistory,
   HashHistory,
@@ -7,16 +5,15 @@ import {
   MemoryHistory,
   Update
 } from 'history'
-
 import { Key, pathToRegexp } from 'path-to-regexp'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import FetchView from './FetchView'
-
-import ForbiddenDefault from './Forbidden'
-import NotFoundDefault from './NotFound'
-import LoaderDefault from './Loader'
 import ErrorDefault from './Error'
-
+import FetchView from './FetchView'
+import ForbiddenDefault from './Forbidden'
+import HistoryContext from '../context/HistoryContext'
+import LoaderDefault from './Loader'
+import NotFoundDefault from './NotFound'
 import createWindowHistory from '../utils/createWindowHistory'
 import sleep from '../utils/sleep'
 
@@ -160,23 +157,25 @@ export const Switch = ({
   )
 
   return (
-    <FetchView<Location>
-      state={handleState}
-      Loader={Loader}
-      Error={Error}
-      payload={location}
-      fallback={fallback}
-      onLoadStart={onLoadStart}
-      onLoadEnd={onLoadEnd}
-      throwError={throwError}
-    >
-      {async (data: Record<string, any>) => {
-        const { element: Element = Fragment, params } = data
-        /* delay to prevent sync execution for appear animation */
-        await sleep(0)
-        return <Element {...params} />
-      }}
-    </FetchView>
+    <HistoryContext history={history}>
+      <FetchView<Location>
+        state={handleState}
+        Loader={Loader}
+        Error={Error}
+        payload={location}
+        fallback={fallback}
+        onLoadStart={onLoadStart}
+        onLoadEnd={onLoadEnd}
+        throwError={throwError}
+      >
+        {async (data: Record<string, any>) => {
+          const { element: Element = Fragment, params } = data
+          /* delay to prevent sync execution for appear animation */
+          await sleep(0)
+          return <Element {...params} />
+        }}
+      </FetchView>
+    </HistoryContext>
   )
 }
 

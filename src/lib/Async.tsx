@@ -1,94 +1,65 @@
 import * as React from 'react'
 
-import cancelable, { CANCELED_SYMBOL, IWrappedFn } from '../utils/cancelable'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+
+import queued from '../utils/queued'
 
 export interface IAsyncProps<T extends any = object> {
   children: (p: T) => Result | Promise<Result>
-  fallback?: (e: Error) => void
   Loader?: React.ComponentType
   Error?: React.ComponentType
   onLoadStart?: () => void
   onLoadEnd?: (isOk: boolean) => void
   payload?: T
   deps?: any[]
-  throwError?: boolean
 }
 
 type Result = React.ReactNode
 
 export const Async = <T extends any = object>({
   children,
-  fallback,
   Loader = () => null,
   Error = () => null,
   onLoadStart,
   onLoadEnd,
   payload,
-  deps = [],
-  throwError = false
+  deps = []
 }: IAsyncProps<T>) => {
   const [child, setChild] = useState<Result>('')
-
-  const executionRef = useRef<IWrappedFn<Result> | null>(null)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
-  const isMounted = useRef(true)
-
-  useLayoutEffect(
-    () => () => {
-      isMounted.current = false
-    },
+  const execute = useMemo(
+    () =>
+      queued(async (payload) => {
+        let isOk = true
+        setLoading(true)
+        setError(false)
+        onLoadStart && onLoadStart()
+        try {
+          const result = children(payload!)
+          if (result instanceof Promise) {
+            return (await result) || null
+          } else {
+            return result || null
+          }
+        } catch (e) {
+          isOk = false
+        } finally {
+          setLoading(false)
+          setError(!isOk)
+          onLoadEnd && onLoadEnd(isOk)
+        }
+        return null
+      }),
     []
   )
 
   useEffect(() => {
-    if (executionRef.current) {
-      executionRef.current.cancel()
-    }
-
-    const execute = cancelable(async () => {
-      let isOk = true
-      onLoadStart && onLoadStart()
-      try {
-        const result = children(payload!)
-        if (result instanceof Promise) {
-          return (await result) || null
-        } else {
-          return result || null
-        }
-      } catch (e) {
-        isOk = false
-        throw e
-      } finally {
-        onLoadEnd && onLoadEnd(isOk)
-      }
-    })
-
-    executionRef.current = execute
-
     const process = async () => {
-      isMounted.current && setLoading(true)
-      isMounted.current && setError(false)
-      try {
-        const result = await execute()
-        if (result === CANCELED_SYMBOL) {
-          return;
-        }
-        executionRef.current = null
-        isMounted.current && setChild(result)
-      } catch (e) {
-        isMounted.current && setError(true)
-        if (!throwError) {
-          fallback && fallback(e as Error)
-        } else {
-          throw e
-        }
-      } finally {
-        isMounted.current && setLoading(false)
-      }
+      const result = await execute(payload)
+      setChild(result)
     }
 
     process()

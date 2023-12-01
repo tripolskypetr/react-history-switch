@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Switch } from 'react-history-switch';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 
-const history = createBrowserHistory();
+const history = createMemoryHistory();
 
 const Link = ({
     children,

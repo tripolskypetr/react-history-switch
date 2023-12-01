@@ -1,9 +1,8 @@
-import React from 'react'
-
-import LoaderPlaceholder from './Loader'
-import ErrorPlaceholder from './Error'
-
 import Async, { IAsyncProps } from './Async'
+
+import ErrorPlaceholder from './Error'
+import LoaderPlaceholder from './Loader'
+import React from 'react'
 
 type FetchState<T extends any = object> =
   | ((payload: T) => Promise<any>)
@@ -17,7 +16,7 @@ export interface IFetchViewProps<P extends any = object>
     }
   > {
   state: FetchState<P> | FetchState<P>[]
-  children: (...data: any[]) => React.ReactNode
+  children: (...data: any[]) => Promise<React.ReactNode>
 }
 
 export const FetchView = <P extends any = object>({

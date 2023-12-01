@@ -45,7 +45,6 @@ declare module 'react-history-switch/lib/Switch' {
     }
     export interface ISwitchProps {
         items: ISwitchItem[];
-        fallback?: (e: Error) => void;
         history?: BrowserHistory | MemoryHistory | HashHistory;
         Forbidden?: React.ComponentType<any>;
         NotFound?: React.ComponentType<any>;
@@ -53,9 +52,8 @@ declare module 'react-history-switch/lib/Switch' {
         Error?: React.ComponentType<any>;
         onLoadStart?: () => void;
         onLoadEnd?: (isOk?: boolean) => void;
-        throwError?: boolean;
     }
-    export const Switch: ({ Loader, Forbidden, NotFound, Error, history, fallback, items, onLoadStart, onLoadEnd, throwError }: ISwitchProps) => JSX.Element;
+    export const Switch: ({ Loader, Forbidden, NotFound, Error, history, items, onLoadStart, onLoadEnd, }: ISwitchProps) => JSX.Element;
     export default Switch;
 }
 

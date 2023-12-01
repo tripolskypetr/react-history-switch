@@ -30,7 +30,6 @@ export interface ISwitchItem {
 
 export interface ISwitchProps {
   items: ISwitchItem[]
-  fallback?: (e: Error) => void
   history?: BrowserHistory | MemoryHistory | HashHistory
   Forbidden?: React.ComponentType<any>
   NotFound?: React.ComponentType<any>
@@ -38,7 +37,6 @@ export interface ISwitchProps {
   Error?: React.ComponentType<any>
   onLoadStart?: () => void
   onLoadEnd?: (isOk?: boolean) => void
-  throwError?: boolean
 }
 
 const canActivate = async (item: ISwitchItem) => {
@@ -61,11 +59,9 @@ export const Switch = ({
   NotFound = NotFoundDefault,
   Error = ErrorDefault,
   history = DEFAULT_HISTORY,
-  fallback,
   items,
   onLoadStart,
   onLoadEnd,
-  throwError = false
 }: ISwitchProps) => {
   const unloadRef = useRef<(() => Promise<void>) | null>(null)
 
@@ -84,8 +80,7 @@ export const Switch = ({
   }, [history, location])
 
   const handleState = useMemo(
-    () => async () => {
-      const { pathname: url = '/' } = location
+    () => async (url: string) => {
       unloadRef.current && (await unloadRef.current())
       for (const item of items) {
         const { element = Fragment, redirect, prefetch, unload, path } = item
@@ -158,17 +153,15 @@ export const Switch = ({
 
   return (
     <HistoryContext history={history}>
-      <FetchView<Location>
+      <FetchView<string>
         state={handleState}
         Loader={Loader}
         Error={Error}
-        payload={location}
-        fallback={fallback}
+        payload={location.pathname}
         onLoadStart={onLoadStart}
         onLoadEnd={onLoadEnd}
-        throwError={throwError}
       >
-        {async (data: Record<string, any>) => {
+        {async (data: any) => {
           const { element: Element = Fragment, params } = data
           /* delay to prevent sync execution for appear animation */
           await sleep(0)

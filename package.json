@@ -1,6 +1,6 @@
 {
   "name": "react-history-switch",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "Self-hosted context-free Switch routing component for History.js library (React). The library was created to transfer navigation responsibility from a view into Mobx state container (MVC). Also can be used separately as a self-hosted router",
   "private": false,
   "author": {
@@ -47,8 +47,8 @@
     "react-dom": ">= 16.8.0 <= 18.2.0"
   },
   "devDependencies": {
-    "@types/react": "16.9.27",
-    "@types/react-dom": "16.9.7",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "dts-bundle": "0.7.3",
